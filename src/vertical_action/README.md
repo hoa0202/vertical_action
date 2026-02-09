@@ -47,7 +47,7 @@ line_2:
 
 ## 코드3: 수동 액션 명령 (manual_action_command_node)
 
-사람이 육안으로 `goal_finish` 등을 확인한 뒤, `/action` 토픽으로 수동 명령을 보낸다.
+사람이 육안으로 확인한 뒤 `/action` 또는 `/action_check`로 수동 명령을 보낸다.
 
 ### 실행
 
@@ -57,8 +57,11 @@ line_2:
 ros2 run vertical_action manual_action_command_node
 ```
 
-- **n** : `entering_next` 발행 (다음 단계로)
-- **e** : `entering_end` 발행 (시나리오 종료)
+- **n** : `/action`에 `entering_next` (다음 단계로)
+- **e** : `/action`에 `entering_end` (시나리오 종료)
+- **c** : `/action_check`에 `entering_check` (진입 확인 수신 알림)
+- **f** : `/action_check`에 `goal_finish` (목표 완료 알림)
+- **r** : `/action_check`에 `goal_return_finish` (복귀 완료 알림)
 - **q** 또는 **Ctrl+C** : 노드 종료
 
 **한 번만 전송 후 종료**:
@@ -66,11 +69,15 @@ ros2 run vertical_action manual_action_command_node
 ```bash
 ros2 run vertical_action manual_action_command_node entering_next
 ros2 run vertical_action manual_action_command_node entering_end
+ros2 run vertical_action manual_action_command_node entering_check
+ros2 run vertical_action manual_action_command_node goal_finish
+ros2 run vertical_action manual_action_command_node goal_return_finish
 ```
 
 ### 토픽
 
-- 발행: `/action` (`std_msgs/String`) — `entering_next`, `entering_end` 등
+- 발행: `/action` (`std_msgs/String`) — `entering_next`, `entering_end`
+- 발행: `/action_check` (`std_msgs/String`) — `entering_check`, `goal_finish`, `goal_return_finish`
 
 ---
 
