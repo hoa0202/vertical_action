@@ -1,0 +1,20 @@
+# 제외
+.specstory/
+**/data/line_positions.yaml
+
+# colcon
+build/
+install/
+log/
+
+# Python
+*.pyc
+__pycache__/
+*.egg-info/
+*.egg
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
