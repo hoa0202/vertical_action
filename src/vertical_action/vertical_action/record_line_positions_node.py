@@ -4,9 +4,9 @@
 현재 위치·방향을 패키지 내 data/line_positions.yaml 에 1번부터 저장.
 저장 형식: RViz2 Nav2 Goal과 동일 (geometry_msgs/PoseStamped).
 
-실행: ros2 launch vertical_action record_line_positions.launch.py
+실행: ros2 run vertical_action record_line_positions_node
   k : 현재 위치 저장 (1번부터 자동 증가)
-  s 또는 Ctrl+C : 종료 (터미널 직접 연결 시). 비연결 시 토픽으로 저장.
+  s 또는 Ctrl+C : 종료
 """
 import os
 import select
