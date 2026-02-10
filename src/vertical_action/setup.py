@@ -1,4 +1,5 @@
 from setuptools import find_packages, setup
+from glob import glob
 
 package_name = "vertical_action"
 
@@ -10,6 +11,7 @@ setup(
         ("share/ament_index/resource_index/packages", ["resource/" + package_name]),
         ("share/" + package_name, ["package.xml"]),
         ("share/" + package_name + "/config", ["config/line_positions.yaml"]),
+        ("share/" + package_name + "/launch", glob("launch/*.launch.py")),
     ],
     install_requires=["setuptools", "pyyaml"],
     zip_safe=True,
@@ -22,6 +24,7 @@ setup(
         "console_scripts": [
             "record_line_positions_node = vertical_action.record_line_positions_node:main",
             "manual_action_command_node = vertical_action.manual_action_command_node:main",
+            "scenario_controller_node = vertical_action.scenario_controller_node:main",
         ],
     },
 )

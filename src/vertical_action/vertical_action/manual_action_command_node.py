@@ -11,6 +11,7 @@
   ros2 run vertical_action manual_action_command_node entering_check
   ros2 run vertical_action manual_action_command_node goal_finish
   ros2 run vertical_action manual_action_command_node goal_return_finish
+  ros2 run vertical_action manual_action_command_node 1   # 라인 1 진입 요청 (/line_to_enter)
 """
 import select
 import sys
@@ -20,7 +21,7 @@ import tty
 
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import String
+from std_msgs.msg import String, Int32
 
 
 class ManualActionCommandNode(Node):
@@ -28,6 +29,14 @@ class ManualActionCommandNode(Node):
         super().__init__("manual_action_command_node")
         self._pub_action = self.create_publisher(String, "/action", 10)
         self._pub_action_check = self.create_publisher(String, "/action_check", 10)
+        self._pub_line = self.create_publisher(Int32, "/line_to_enter", 10)
+
+    def send_line(self, line_number: int) -> None:
+        msg = Int32()
+        msg.data = line_number
+        self._pub_line.publish(msg)
+        self.get_logger().info(f"/line_to_enter 발행: {line_number}")
+        print(f"/line_to_enter 발행: 라인 {line_number}", flush=True)
 
     def send(self, data: str) -> None:
         msg = String()
@@ -67,16 +76,18 @@ def main(args=None):
             node.send(cmd)
         elif cmd in ("entering_check", "goal_finish", "goal_return_finish"):
             node.send_check(cmd)
+        elif cmd.isdigit() and int(cmd) >= 1:
+            node.send_line(int(cmd))
         else:
-            print(f"알 수 없는 명령: {cmd} (entering_next | entering_end | entering_check | goal_finish | goal_return_finish)", file=sys.stderr)
+            print(f"알 수 없는 명령: {cmd} (entering_next | entering_end | entering_check | goal_finish | goal_return_finish | 1~9 라인번호)", file=sys.stderr)
         node.destroy_node()
         rclpy.shutdown()
         return
 
-    # 대화형: n/e = /action, c/r = /action_check, q = 종료
+    # 대화형: 1~9 = /line_to_enter, n/e = /action, c/f/r = /action_check, q = 종료
     spin_thread = threading.Thread(target=rclpy.spin, args=(node,), daemon=True)
     spin_thread.start()
-    print("n: entering_next | e: entering_end | c: entering_check | f: goal_finish | r: goal_return_finish | q: 종료", flush=True)
+    print("1~9: 라인 진입 요청(/line_to_enter) | n: entering_next | e: entering_end | c: entering_check | f: goal_finish | r: goal_return_finish | q: 종료", flush=True)
 
     if sys.stdin.isatty():
         old_attr = termios.tcgetattr(sys.stdin)
@@ -84,7 +95,11 @@ def main(args=None):
             tty.setcbreak(sys.stdin.fileno())
             while True:
                 key = _get_key()
-                if key == "n":
+                if key is None:
+                    continue
+                if key in "123456789":
+                    node.send_line(int(key))
+                elif key == "n":
                     node.send("entering_next")
                 elif key == "e":
                     node.send("entering_end")
@@ -104,7 +119,9 @@ def main(args=None):
         try:
             while True:
                 line = input().strip().lower()
-                if line in ("n", "entering_next"):
+                if line.isdigit() and int(line) >= 1:
+                    node.send_line(int(line))
+                elif line in ("n", "entering_next"):
                     node.send("entering_next")
                 elif line in ("e", "entering_end"):
                     node.send("entering_end")
