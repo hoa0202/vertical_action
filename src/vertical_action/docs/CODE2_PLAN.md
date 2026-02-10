@@ -85,27 +85,27 @@
 ## 4. 구현 단계 (순차 진행)
 
 ### 단계 1: 공통·설정
-- [ ] **1-1** 패키지에 Nav2 관련 의존성 추가 (`nav2_msgs` 등, 사용할 API에 맞춤)
-- [ ] **1-2** YAML 로드 유틸: `data/line_positions.yaml` 경로(소스 패키지 기준) 및 `line_N` → PoseStamped 변환 함수 작성 (코드1과 동일 경로 규칙 사용)
+- [x] **1-1** 패키지에 Nav2 관련 의존성 추가 (`nav2_msgs` 등, 사용할 API에 맞춤)
+- [x] **1-2** YAML 로드 유틸: `data/line_positions.yaml` 경로(소스 패키지 기준) 및 `line_N` → PoseStamped 변환 함수 작성 (코드1과 동일 경로 규칙 사용)
 
 ### 단계 2: Nav2 연동
-- [ ] **2-1** Nav2 목표 전달 방식 결정: 토픽(`/goal_pose` 등) vs 액션(`NavigateToPose`)
-- [ ] **2-2** 선택한 방식으로 “라인 N 좌표 → Nav2 목표 전송” 구현
-- [ ] **2-3** “이동 완료” 감지 구현 (결과 토픽/액션 결과 구독)
+- [x] **2-1** Nav2 목표 전달 방식 결정: 토픽(`/goal_pose` 등) vs 액션(`NavigateToPose`)
+- [x] **2-2** 선택한 방식으로 “라인 N 좌표 → Nav2 목표 전송” 구현
+- [x] **2-3** “이동 완료” 감지 구현 (결과 토픽/액션 결과 구독)
 
 ### 단계 3: 시나리오 제어 노드
-- [ ] **3-1** 시나리오 전용 노드 1개 생성 (예: `scenario_controller_node`)
-- [ ] **3-2** 진입 라인 번호 입력 (stdin 또는 파라미터/서비스): 1, 2, 3… (0 미사용)
-- [ ] **3-3** 위 순서도대로 상태 흐름 구현:
+- [x] **3-1** 시나리오 전용 노드 1개 생성 (예: `scenario_controller_node`)
+- [x] **3-2** 진입 라인 번호 입력 (stdin 또는 파라미터/서비스): 1, 2, 3… (0 미사용)
+- [x] **3-3** 위 순서도대로 상태 흐름 구현:
   - 라인 입력 → YAML 로드 → Nav2 이동 → 완료 후 `entering_start` → `entering_check` 0.5초 확인/재전송 → `goal_finish` 로그 → `goal_return_finish` 대기 → 다시 라인 입력
 
 ### 단계 4: 토픽 발행·구독
-- [ ] **4-1** `/action` 발행 (String): `entering_start`
-- [ ] **4-2** `/action_check` 구독 (String): `entering_check`, `goal_finish`, `goal_return_finish` 처리 및 로그/상태 전이
+- [x] **4-1** `/action` 발행 (String): `entering_start`
+- [x] **4-2** `/action_check` 구독 (String): `entering_check`, `goal_finish`, `goal_return_finish` 처리 및 로그/상태 전이
 
 ### 단계 5: 런치 및 정리
-- [ ] **5-1** 코드2 전용 런치파일 작성 (시나리오 노드만 또는 Nav2와 함께 실행하는 옵션)
-- [ ] **5-2** README에 코드2 실행 방법·파라미터·토픽 정리
+- [x] **5-1** 코드2 전용 런치파일 작성 (시나리오 노드만 또는 Nav2와 함께 실행하는 옵션)
+- [x] **5-2** README에 코드2 실행 방법·파라미터·토픽 정리
 
 ---
 
