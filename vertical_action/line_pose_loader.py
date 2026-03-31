@@ -11,7 +11,7 @@ from builtin_interfaces.msg import Time
 
 
 def get_data_dir() -> str:
-    """소스 패키지의 data 디렉터리 (workspace/src/vertical_action/data)."""
+    """소스 패키지의 data 디렉터리 (colcon 시 workspace/src/<패키지명>/data)."""
     path = os.path.abspath(__file__)
     pkg_dir = os.path.dirname(os.path.dirname(path))
     parent = os.path.dirname(pkg_dir)

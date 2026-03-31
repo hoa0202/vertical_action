@@ -18,7 +18,7 @@ ros2 run vertical_action record_line_positions_node
 
 ### 저장 위치
 
-- `src/vertical_action/data/line_positions.yaml` (소스 패키지 기준)
+- `data/line_positions.yaml` (이 저장소·패키지 루트 기준; colcon 워크스페이스에 둘 때는 `src/vertical_action/data/line_positions.yaml`)
 
 ### 파라미터
 

@@ -112,7 +112,7 @@
 ## 5. 파일 구성 (목표)
 
 ```
-src/vertical_action/
+vertical_action/   # 저장소(패키지) 루트
 ├── launch/
 │   └── scenario_control.launch.py   # 코드2 런치 (단계 5에서 추가)
 ├── vertical_action/

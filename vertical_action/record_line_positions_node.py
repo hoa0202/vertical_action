@@ -25,7 +25,7 @@ import yaml
 
 
 def _get_package_data_dir() -> str:
-    """소스 패키지의 data 디렉터리 (workspace/src/vertical_action/data)."""
+    """소스 패키지의 data 디렉터리 (colcon 시 workspace/src/<패키지명>/data)."""
     path = os.path.abspath(__file__)
     # .../workspace/build/vertical_action/vertical_action/record_... or .../install/.../vertical_action/record_...
     pkg_dir = os.path.dirname(os.path.dirname(path))
